@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>目标校对比看板</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 左上角中英文切换按钮 -->
+  <button class="lang-switch" id="lang-switch">EN</button>
+
+  <div class="app">
+    <!-- 页面标题区 -->
+    <header class="header">
+      <h1>目标校对比看板</h1>
+      <p class="subtitle">把几所学校并排一摆，差距一眼看清</p>
+    </header>
+
+    <!-- 控制区：国家筛选 + 高亮差异开关 -->
+    <div class="controls">
+      <div class="filter-group">
+        <label class="control-label" for="country-filter">国家：</label>
+        <select class="country-filter" id="country-filter">
+          <option value="all">全部国家</option>
+        </select>
+      </div>
+      <button class="highlight-btn" id="highlight-btn">✨ 高亮差异</button>
+    </div>
+
+    <!-- 学校卡片容器，由 JavaScript 填充 -->
+    <div class="cards-container" id="cards-container">
+      <div class="loading">正在加载学校数据...</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
