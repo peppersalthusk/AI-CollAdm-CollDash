@@ -3,36 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>目标校对比看板</title>
+  <title>CollDash</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <!-- 左上角中英文切换按钮 -->
-  <button class="lang-switch" id="lang-switch">EN</button>
-
-  <div class="app">
-    <!-- 页面标题区 -->
-    <header class="header">
-      <h1>目标校对比看板</h1>
-      <p class="subtitle">把几所学校并排一摆，差距一眼看清</p>
-    </header>
-
-    <!-- 控制区：国家筛选 + 高亮差异开关 -->
-    <div class="controls">
-      <div class="filter-group">
-        <label class="control-label" for="country-filter">国家：</label>
-        <select class="country-filter" id="country-filter">
-          <option value="all">全部国家</option>
-        </select>
+<body class="page-home">
+  <!-- 顶栏：项目名 + 语言切换 -->
+  <div class="top-bar">
+    <button type="button" class="project-name" id="nav-home">CollDash</button>
+    <div class="top-bar-actions">
+      <div class="nav-links">
+        <button type="button" class="nav-link" id="nav-home-btn">首页</button>
+        <button type="button" class="nav-link" id="nav-dashboard">看板</button>
       </div>
-      <button class="highlight-btn" id="highlight-btn">✨ 高亮差异</button>
-    </div>
-
-    <!-- 学校卡片容器，由 JavaScript 填充 -->
-    <div class="cards-container" id="cards-container">
-      <div class="loading">正在加载学校数据...</div>
+      <button class="lang-switch" id="lang-switch">EN</button>
     </div>
   </div>
+
+  <!-- 首页：卡片式 Hero，默认渐变背景 -->
+  <div class="page" id="home-page">
+    <div class="home-container">
+      <section class="home-hero">
+        <div class="home-textbox" id="home-textbox">
+          <span class="line1">把几所学校并排一摆，</span><br>
+          <span class="line2">差距<span class="highlight-blue">一眼看清</span></span>
+        </div>
+        <button type="button" class="cta-btn" id="cta-dashboard">进入看板 →</button>
+      </section>
+
+      <section class="home-features">
+        <div class="feature-card">
+          <h3 class="feature-title">并排对比</h3>
+          <p class="feature-desc">多所学校同屏展示，录取率、SAT、截止日一眼对比</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="feature-title">高亮差异</h3>
+          <p class="feature-desc">自动标出差距最大的指标，快速定位关键区别</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="feature-title">国家筛选</h3>
+          <p class="feature-desc">按国家切换背景与数据，聚焦目标地区</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 空白页：与首页同背景，无内容，滚轮向下进入、向上返回 -->
+  <div class="page page-hidden" id="blank-page"></div>
+
+  <!-- 页面切换遮罩：黑屏淡出 -->
+  <div class="page-transition" id="page-transition"></div>
+
+  <!-- 看板页 -->
+  <div class="page page-hidden" id="dashboard-page">
+    <div class="app">
+      <!-- 控制区：国家筛选 + SAT 范围筛选 -->
+      <div class="controls">
+        <div class="filter-group">
+          <label class="control-label" for="country-filter">国家：</label>
+          <select class="country-filter" id="country-filter">
+            <option value="all">全部国家</option>
+          </select>
+        </div>
+
+        <div class="filter-group sat-filter-group">
+          <label class="control-label" for="sat-range">SAT 范围：</label>
+          <div class="sat-range-wrap">
+            <input type="range" id="sat-min" class="sat-range" min="400" max="1600" value="400" step="10">
+            <input type="range" id="sat-max" class="sat-range" min="400" max="1600" value="1600" step="10">
+            <div class="sat-track"></div>
+            <div class="sat-range-values" id="sat-range-values">400 - 1600</div>
+          </div>
+        </div>
+
+        <button class="highlight-btn" id="highlight-btn">✨ 高亮差异</button>
+      </div>
+
+      <!-- 学校卡片容器，由 JavaScript 填充 -->
+      <div class="cards-container" id="cards-container">
+        <div class="loading">正在加载学校数据...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 返回顶部 -->
+  <button class="back-to-top" id="back-to-top" aria-label="返回顶部" title="返回顶部">↑</button>
 
   <script src="script.js"></script>
 </body>

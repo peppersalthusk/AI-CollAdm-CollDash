@@ -1,16 +1,31 @@
 // 全局状态
 let schools = [];           // 原始学校数据
 let currentCountry = 'all'; // 当前选中的国家
+let satRange = { min: 400, max: 1600 }; // 当前 SAT 筛选范围
 let highlightOn = false;    // 高亮差异开关是否打开
 let currentLang = 'zh';     // 当前界面语言
+let currentPage = 'home';   // 当前页面：home | dashboard
 
 // 中英文翻译字典
 const i18n = {
   zh: {
     title: '目标校对比看板',
-    subtitle: '把几所学校并排一摆，差距一眼看清',
+    homeTitle: 'CollDash',
+    homeLine1: '把几所学校并排一摆，',
+    homeLine2a: '差距',
+    homeLine2b: '一眼看清',
+    ctaDashboard: '进入看板 →',
+    featureCompare: '并排对比',
+    featureCompareDesc: '多所学校同屏展示，录取率、SAT、截止日一眼对比',
+    featureHighlight: '高亮差异',
+    featureHighlightDesc: '自动标出差距最大的指标，快速定位关键区别',
+    featureFilter: '国家筛选',
+    featureFilterDesc: '按国家切换背景与数据，聚焦目标地区',
+    navHome: '首页',
+    navDashboard: '看板',
     countryLabel: '国家：',
     allCountries: '全部国家',
+    satLabel: 'SAT 范围：',
     highlight: '✨ 高亮差异',
     langSwitch: 'EN',
     loading: '正在加载学校数据...',
@@ -24,9 +39,22 @@ const i18n = {
   },
   en: {
     title: 'Target School Dashboard',
-    subtitle: 'Compare schools side by side at a glance',
+    homeTitle: 'CollDash',
+    homeLine1: 'Compare schools side by side, ',
+    homeLine2a: 'see the gap ',
+    homeLine2b: 'at a glance',
+    ctaDashboard: 'Open Dashboard →',
+    featureCompare: 'Side by Side',
+    featureCompareDesc: 'Compare acceptance rate, SAT and deadlines across schools',
+    featureHighlight: 'Highlight Differences',
+    featureHighlightDesc: 'Automatically spot the metric with the largest gap',
+    featureFilter: 'Country Filter',
+    featureFilterDesc: 'Switch backgrounds and data by country',
+    navHome: 'Home',
+    navDashboard: 'Dashboard',
     countryLabel: 'Country: ',
     allCountries: 'All Countries',
+    satLabel: 'SAT Range: ',
     highlight: '✨ Highlight Differences',
     langSwitch: '中',
     loading: 'Loading school data...',
@@ -45,12 +73,29 @@ const WORLD_BACKGROUND = 'resource/World.jpg';
 
 // 国家背景图片对照表（key 为英文国家名，未指定的国家使用默认渐变色背景）
 const COUNTRY_BACKGROUNDS = {
-  'USA': 'resource/USA.jpg'
+  'USA': 'resource/USA.jpg',
+  'UK': 'resource/UK.jpg',
+  'Hong Kong, China': 'resource/HK.jpg'
 };
 
-// 根据当前选中的国家切换页面背景
+// 默认渐变背景（与 styles.css 中 --default-bg 一致）
+const DEFAULT_BACKGROUND = 'linear-gradient(135deg, #f5e3b2 0%, #fce28d 100%)';
+
+// 根据当前选中的国家切换页面背景（首页与空白页使用世界背景图）
 function updateBackground() {
   const body = document.body;
+
+  if (currentPage === 'home' || currentPage === 'blank') {
+    // 首页使用世界背景图
+    body.style.backgroundImage = `url('${WORLD_BACKGROUND}')`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundAttachment = 'fixed';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.classList.add('has-bg-image', 'view-all-countries');
+    return;
+  }
+
   let img = null;
 
   if (currentCountry === 'all') {
@@ -70,241 +115,90 @@ function updateBackground() {
     body.classList.add('has-bg-image');
   } else {
     // 没有对应图片时，恢复默认渐变色背景
-    body.style.backgroundImage = '';
+    body.style.backgroundImage = DEFAULT_BACKGROUND;
     body.classList.remove('has-bg-image');
   }
-
-  updateSubtitleColor();
 }
 
-// ===== 副标题自动反色 =====
+// 切换页面：home | dashboard | blank，带黑屏淡出动画
+function showPage(page) {
+  if (page === currentPage) return;
 
-// 背景图加载缓存：URL -> Promise<Image>
-const bgImageCache = new Map();
+  const transition = document.getElementById('page-transition');
+  transition.classList.add('active');
 
-function loadBgImage(url) {
-  if (!bgImageCache.has(url)) {
-    bgImageCache.set(url, new Promise((resolve, reject) => {
-      const image = new Image();
-      // onload 后再等待 decode，确保 drawImage 一定能画出像素
-      image.onload = () => {
-        image.decode()
-          .then(() => resolve(image))
-          .catch(() => resolve(image));
-      };
-      image.onerror = reject;
-      image.src = url;
-    }));
-  }
-  return bgImageCache.get(url);
-}
+  setTimeout(() => {
+    currentPage = page;
 
-// 返回当前使用的背景图 URL；渐变色模式返回 null
-function getCurrentBackgroundUrl() {
-  if (currentCountry === 'all') return WORLD_BACKGROUND;
-  const school = schools.find(s => s.country[currentLang] === currentCountry);
-  const key = school ? school.country.en : null;
-  return key ? (COUNTRY_BACKGROUNDS[key] || null) : null;
-}
-
-// 对副标题所在区域的背景像素采样，返回 ImageData 的像素数组
-async function sampleSubtitleBackground() {
-  const rect = document.querySelector('.subtitle').getBoundingClientRect();
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = Math.max(1, Math.round(rect.width));
-  canvas.height = Math.max(1, Math.round(rect.height));
-  const ctx = canvas.getContext('2d');
-
-  const url = getCurrentBackgroundUrl();
-  if (url) {
-    // 背景图：按 CSS cover + center + fixed 的公式，把视口坐标映射到图片坐标
-    const img = await loadBgImage(url);
-    const scale = Math.max(vw / img.width, vh / img.height);
-    const originX = (vw - img.width * scale) / 2;
-    const originY = (vh - img.height * scale) / 2;
-    ctx.drawImage(
-      img,
-      (rect.left - originX) / scale,
-      (rect.top - originY) / scale,
-      rect.width / scale,
-      rect.height / scale,
-      0, 0, canvas.width, canvas.height
-    );
-  } else {
-    // 渐变色兜底：重建与 CSS 相同的 135 度渐变（相对 body 全幅，再偏移到 rect）
-    const bodyH = Math.max(document.body.scrollHeight, vh);
-    const grad = ctx.createLinearGradient(-rect.left, -rect.top, vw - rect.left, bodyH - rect.top);
-    grad.addColorStop(0, '#f5e3b2');
-    grad.addColorStop(1, '#fce28d');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-
-  return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-}
-
-// 按颜色量化分组，返回加权平均色与占比最大组的颜色
-function analyzePixels(data) {
-  const total = data.length / 4;
-  const bins = new Map(); // key -> { count, sumR, sumG, sumB }
-
-  // 每通道量化为 16 档，相近颜色归入同一组
-  for (let i = 0; i < data.length; i += 4) {
-    const key = ((data[i] >> 4) << 8) | ((data[i + 1] >> 4) << 4) | (data[i + 2] >> 4);
-    let bin = bins.get(key);
-    if (!bin) {
-      bin = { count: 0, sumR: 0, sumG: 0, sumB: 0 };
-      bins.set(key, bin);
-    }
-    bin.count++;
-    bin.sumR += data[i];
-    bin.sumG += data[i + 1];
-    bin.sumB += data[i + 2];
-  }
-
-  let weightSum = 0, r = 0, g = 0, b = 0;
-  let dominant = null;
-  for (const bin of bins.values()) {
-    const share = bin.count / total;
-    const weight = share * share; // 占比平方，放大主导颜色的话语权
-    weightSum += weight;
-    r += (bin.sumR / bin.count) * weight;
-    g += (bin.sumG / bin.count) * weight;
-    b += (bin.sumB / bin.count) * weight;
-
-    if (!dominant || bin.count > dominant.count) {
-      dominant = bin;
-    }
-  }
-
-  return {
-    avg: {
-      r: Math.round(r / weightSum),
-      g: Math.round(g / weightSum),
-      b: Math.round(b / weightSum)
-    },
-    // 占比最大颜色组的平均色，用作副标题背景
-    dominant: {
-      r: Math.round(dominant.sumR / dominant.count),
-      g: Math.round(dominant.sumG / dominant.count),
-      b: Math.round(dominant.sumB / dominant.count)
-    }
-  };
-}
-
-// 反色：每个通道用 255 减去原值
-function inverseColor({ r, g, b }) {
-  return { r: 255 - r, g: 255 - g, b: 255 - b };
-}
-
-// RGB (0–255) → HSL（h: 0–360, s/l: 0–1）
-function rgbToHsl({ r, g, b }) {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-  let h = 0;
-  let s = 0;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    switch (max) {
-      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
-      case g: h = ((b - r) / d + 2) / 6; break;
-      default: h = ((r - g) / d + 4) / 6; break;
-    }
-  }
-
-  return { h: h * 360, s, l };
-}
-
-// HSL → RGB (0–255)
-function hslToRgb({ h, s, l }) {
-  h = ((h % 360) + 360) % 360 / 360;
-  let r, g, b;
-
-  if (s === 0) {
-    r = g = b = l;
-  } else {
-    const hue2rgb = (p, q, t) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
+    // 三个页面只显示目标页，其余隐藏
+    const pages = {
+      home: document.getElementById('home-page'),
+      dashboard: document.getElementById('dashboard-page'),
+      blank: document.getElementById('blank-page')
     };
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
-  }
+    Object.entries(pages).forEach(([name, el]) => {
+      el.classList.toggle('page-hidden', name !== page);
+    });
 
-  return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255)
-  };
-}
+    document.body.classList.toggle('page-home', page === 'home');
+    document.body.classList.toggle('page-dashboard', page === 'dashboard');
+    document.body.classList.toggle('page-blank', page === 'blank');
 
-// 将饱和度设为指定百分比（保留色相与亮度）
-function setSaturation(rgb, percent) {
-  const hsl = rgbToHsl(rgb);
-  hsl.s = percent / 100;
-  return hslToRgb(hsl);
-}
+    updateBackground();
+    window.scrollTo({ top: 0 });
 
-function toHex({ r, g, b }) {
-  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
-}
-
-function toRgba({ r, g, b }, alpha) {
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-// 副标题：背景用占比最大颜色（透明度 0.5），文字为加权平均反色后再提饱和度至 70%
-let subtitleColorSeq = 0;
-
-async function updateSubtitleColor() {
-  const seq = ++subtitleColorSeq;
-  try {
-    const pixels = await sampleSubtitleBackground();
-    // 若期间又触发了新的计算，丢弃过期结果
-    if (seq !== subtitleColorSeq) return;
-
-    const { avg, dominant } = analyzePixels(pixels);
-    const textColor = setSaturation(inverseColor(avg), 70);
-    const subtitle = document.querySelector('.subtitle');
-    subtitle.style.backgroundColor = toRgba(dominant, 0.5);
-    subtitle.style.color = toHex(textColor);
-  } catch (error) {
-    console.warn('副标题颜色计算失败：', error);
-  }
+    requestAnimationFrame(() => {
+      transition.classList.remove('active');
+    });
+  }, 500);
 }
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', init);
 
-// 初始化：读取数据并绑定事件
+// 动态加载脚本（用于 file:// 下读取 data.js）
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+// 加载学校数据：HTTP(S) 优先 fetch data.json，file:// 或 fetch 失败时用 data.js
+async function loadSchoolData() {
+  if (location.protocol !== 'file:') {
+    try {
+      const response = await fetch('data.json');
+      if (response.ok) return response.json();
+    } catch (_) {
+      // fetch 失败时回退到 data.js
+    }
+  }
+
+  if (window.SCHOOLS_DATA) return window.SCHOOLS_DATA;
+
+  await loadScript('data.js');
+  if (window.SCHOOLS_DATA) return window.SCHOOLS_DATA;
+
+  throw new Error('Failed to load school data');
+}
+
+// 初始化：读取数据并绑定事件（默认先展示首页）
 async function init() {
   try {
+    showPage('home');
+    updateStaticUI();
+    bindEvents();
+
     document.getElementById('cards-container').innerHTML =
       `<div class="loading">${t('loading')}</div>`;
 
-    const response = await fetch('data.json');
-    schools = await response.json();
-    updateStaticUI();
+    schools = await loadSchoolData();
     populateCountryFilter();
-    updateBackground();
     renderCards();
-    bindEvents();
   } catch (error) {
     console.error('加载数据失败：', error);
     document.getElementById('cards-container').innerHTML =
@@ -361,10 +255,23 @@ function getDeadlineSortValue(deadline) {
 // 更新不需要卡片的静态界面文字
 function updateStaticUI() {
   document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
-  document.title = t('title');
+  document.title = currentPage === 'dashboard' ? t('title') : t('homeTitle');
   document.getElementById('lang-switch').textContent = t('langSwitch');
-  document.querySelector('.header h1').textContent = t('title');
-  document.querySelector('.subtitle').textContent = t('subtitle');
+  document.getElementById('nav-home-btn').textContent = t('navHome');
+  document.getElementById('nav-dashboard').textContent = t('navDashboard');
+  const cta = document.getElementById('cta-dashboard');
+  if (cta) cta.textContent = t('ctaDashboard');
+  const highlightBtn = document.getElementById('highlight-btn');
+  if (highlightBtn) highlightBtn.textContent = t('highlight');
+  document.querySelector('.home-textbox .line1').textContent = t('homeLine1');
+  document.querySelector('.home-textbox .line2').innerHTML =
+    t('homeLine2a') + '<span class="highlight-blue">' + t('homeLine2b') + '</span>';
+  document.querySelectorAll('.feature-title').forEach((el, i) => {
+    el.textContent = [t('featureCompare'), t('featureHighlight'), t('featureFilter')][i];
+  });
+  document.querySelectorAll('.feature-desc').forEach((el, i) => {
+    el.textContent = [t('featureCompareDesc'), t('featureHighlightDesc'), t('featureFilterDesc')][i];
+  });
   document.querySelector('.control-label').textContent = t('countryLabel');
   document.getElementById('highlight-btn').textContent = t('highlight');
 }
@@ -388,6 +295,24 @@ function populateCountryFilter() {
 
 // 绑定按钮事件
 function bindEvents() {
+  // 回到首页（CollDash / 首页按钮）
+  function goHome() {
+    showPage('home');
+    updateStaticUI();
+  }
+
+  document.getElementById('nav-home').addEventListener('click', goHome);
+  document.getElementById('nav-home-btn').addEventListener('click', goHome);
+
+  // 进入看板（顶栏 + CTA）
+  function goDashboard() {
+    showPage('dashboard');
+    updateStaticUI();
+  }
+
+  document.getElementById('nav-dashboard').addEventListener('click', goDashboard);
+  document.getElementById('cta-dashboard').addEventListener('click', goDashboard);
+
   // 语言切换按钮
   document.getElementById('lang-switch').addEventListener('click', () => {
     const newLang = currentLang === 'zh' ? 'en' : 'zh';
@@ -414,22 +339,167 @@ function bindEvents() {
     renderCards();
   });
 
+  // SAT 范围双滑块
+  bindSatRangeFilter();
+
   // 高亮差异开关
-  document.getElementById('highlight-btn').addEventListener('click', () => {
-    highlightOn = !highlightOn;
-    document.getElementById('highlight-btn').classList.toggle('active', highlightOn);
+  const highlightBtn = document.getElementById('highlight-btn');
+  if (highlightBtn) {
+    highlightBtn.addEventListener('click', () => {
+      highlightOn = !highlightOn;
+      highlightBtn.classList.toggle('active', highlightOn);
+      renderCards();
+    });
+  }
+
+  bindTopBarScroll();
+
+  // 滚轮切换：首页向下滚动进入空白页，空白页向上滚动返回首页
+  bindWheelPageSwitch();
+
+  // 返回顶部：空白页时返回首页，其余页面滚动到顶部
+  document.getElementById('back-to-top').addEventListener('click', () => {
+    if (currentPage === 'blank') {
+      showPage('home');
+      updateStaticUI();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+}
+
+// 滚轮切换：首页向下滚动进入空白页，空白页向上滚动返回首页
+function bindWheelPageSwitch() {
+  let locked = false; // 切换动画期间锁定，防止连续触发
+
+  window.addEventListener('wheel', (e) => {
+    if (locked) return;
+
+    if (currentPage === 'home' && e.deltaY > 0) {
+      locked = true;
+      showPage('blank');
+      updateStaticUI();
+      setTimeout(() => { locked = false; }, 1000);
+    } else if (currentPage === 'blank') {
+      // 空白页无内容，禁止页面本身滚动
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        locked = true;
+        showPage('home');
+        updateStaticUI();
+        setTimeout(() => { locked = false; }, 1000);
+      }
+    }
+  }, { passive: false });
+}
+
+// SAT 范围双滑块：范围 400 ~ 1600，只显示 SAT 上下限完全落在范围内的卡片
+function bindSatRangeFilter() {
+  const minInput = document.getElementById('sat-min');
+  const maxInput = document.getElementById('sat-max');
+  const valuesEl = document.getElementById('sat-range-values');
+  const MIN = 400;
+  const MAX = 1600;
+
+  function update() {
+    let min = parseInt(minInput.value, 10);
+    let max = parseInt(maxInput.value, 10);
+
+    // 防止滑块交叉，至少保持 10 分间隔
+    if (min > max - 10) {
+      min = max - 10;
+      minInput.value = min;
+    }
+    if (max < min + 10) {
+      max = min + 10;
+      maxInput.value = max;
+    }
+
+    satRange.min = min;
+    satRange.max = max;
+    valuesEl.textContent = `${min} - ${max}`;
+
+    // 更新轨道高亮区域
+    const track = document.querySelector('.sat-track');
+    if (track) {
+      const left = ((min - MIN) / (MAX - MIN)) * 100;
+      const right = ((MAX - max) / (MAX - MIN)) * 100;
+      track.style.left = left + '%';
+      track.style.right = right + '%';
+    }
+
     renderCards();
-  });
+  }
 
-  // 窗口尺寸变化时重新计算副标题颜色（cover 映射随视口变化）
-  window.addEventListener('resize', () => {
-    updateSubtitleColor();
-  });
+  minInput.addEventListener('input', update);
+  maxInput.addEventListener('input', update);
+  update();
+}
 
-  // 所有资源加载完成后再算一次，兜底首次加载时的时序问题
-  window.addEventListener('load', () => {
-    updateSubtitleColor();
-  });
+// 顶栏：向下/向上滚动持续 0.5 秒后再收起/展开，到顶部强制展开
+function bindTopBarScroll() {
+  const topBar = document.querySelector('.top-bar');
+  const DELAY_MS = 500;
+  let lastScrollY = window.scrollY;
+  let pendingDirection = null; // 'down' | 'up' | null
+  let delayTimer = null;
+  let ticking = false;
+
+  function clearDelay() {
+    if (delayTimer) {
+      clearTimeout(delayTimer);
+      delayTimer = null;
+    }
+    pendingDirection = null;
+  }
+
+  function schedule(direction) {
+    if (pendingDirection === direction) return; // 同方向已在计时，不重置
+    clearDelay();
+    pendingDirection = direction;
+    delayTimer = setTimeout(() => {
+      if (direction === 'down') {
+        topBar.classList.add('collapsed');
+      } else {
+        topBar.classList.remove('collapsed');
+      }
+      pendingDirection = null;
+      delayTimer = null;
+    }, DELAY_MS);
+  }
+
+  function updateTopBar() {
+    const currentY = window.scrollY;
+
+    // 首页和空白页不自动收起/展开顶栏
+    if (currentPage === 'home' || currentPage === 'blank') {
+      clearDelay();
+      topBar.classList.remove('collapsed');
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    if (currentY <= 0) {
+      // 滚动到顶部时强制展开，取消待执行动作
+      clearDelay();
+      topBar.classList.remove('collapsed');
+    } else if (currentY > lastScrollY) {
+      schedule('down');
+    } else if (currentY < lastScrollY) {
+      schedule('up');
+    }
+
+    lastScrollY = currentY;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateTopBar);
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 // 计算录取率和 SAT 在所有学校中的最大最小值，用于画柱状条
@@ -478,6 +548,9 @@ function renderCards() {
   if (currentCountry !== 'all') {
     displayData = displayData.filter(s => s.country[currentLang] === currentCountry);
   }
+
+  // 按 SAT 范围筛选：上下限都在范围内才显示
+  displayData = displayData.filter(s => s.satRange[0] >= satRange.min && s.satRange[1] <= satRange.max);
 
   const bounds = getMetricBounds(displayData);
   const highlights = highlightOn ? getHighlights(displayData) : [];

@@ -1,0 +1,1219 @@
+// Auto-generated from data.json — run: python sync-data.py
+window.SCHOOLS_DATA = [
+  {
+    "name": {
+      "zh": "哈佛大学",
+      "en": "Harvard University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "马萨诸塞州",
+      "en": "Massachusetts"
+    },
+    "acceptanceRate": 3,
+    "satRange": [
+      1500,
+      1580
+    ],
+    "deadline": "1/1",
+    "popularMajors": {
+      "zh": [
+        "经济学",
+        "计算机科学",
+        "政治学"
+      ],
+      "en": [
+        "Economics",
+        "Computer Science",
+        "Political Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "麻省理工学院",
+      "en": "MIT"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "马萨诸塞州",
+      "en": "Massachusetts"
+    },
+    "acceptanceRate": 5,
+    "satRange": [
+      1510,
+      1580
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "工程学",
+        "计算机科学",
+        "物理学"
+      ],
+      "en": [
+        "Engineering",
+        "Computer Science",
+        "Physics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "斯坦福大学",
+      "en": "Stanford University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "加利福尼亚州",
+      "en": "California"
+    },
+    "acceptanceRate": 4,
+    "satRange": [
+      1500,
+      1570
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "工程学",
+        "经济学"
+      ],
+      "en": [
+        "Computer Science",
+        "Engineering",
+        "Economics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "耶鲁大学",
+      "en": "Yale University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "康涅狄格州",
+      "en": "Connecticut"
+    },
+    "acceptanceRate": 5,
+    "satRange": [
+      1500,
+      1570
+    ],
+    "deadline": "1/2",
+    "popularMajors": {
+      "zh": [
+        "历史学",
+        "经济学",
+        "全球事务"
+      ],
+      "en": [
+        "History",
+        "Economics",
+        "Global Affairs"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "普林斯顿大学",
+      "en": "Princeton University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "新泽西州",
+      "en": "New Jersey"
+    },
+    "acceptanceRate": 4,
+    "satRange": [
+      1510,
+      1570
+    ],
+    "deadline": "1/1",
+    "popularMajors": {
+      "zh": [
+        "公共政策",
+        "计算机科学",
+        "经济学"
+      ],
+      "en": [
+        "Public Policy",
+        "Computer Science",
+        "Economics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "哥伦比亚大学",
+      "en": "Columbia University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "纽约州",
+      "en": "New York"
+    },
+    "acceptanceRate": 4,
+    "satRange": [
+      1500,
+      1570
+    ],
+    "deadline": "1/1",
+    "popularMajors": {
+      "zh": [
+        "工程学",
+        "经济学",
+        "政治学"
+      ],
+      "en": [
+        "Engineering",
+        "Economics",
+        "Political Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "芝加哥大学",
+      "en": "University of Chicago"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "伊利诺伊州",
+      "en": "Illinois"
+    },
+    "acceptanceRate": 5,
+    "satRange": [
+      1510,
+      1570
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "经济学",
+        "数学",
+        "公共政策"
+      ],
+      "en": [
+        "Economics",
+        "Mathematics",
+        "Public Policy"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "杜克大学",
+      "en": "Duke University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "北卡罗来纳州",
+      "en": "North Carolina"
+    },
+    "acceptanceRate": 7,
+    "satRange": [
+      1500,
+      1570
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "生物医学工程",
+        "公共政策",
+        "计算机科学"
+      ],
+      "en": [
+        "Biomedical Engineering",
+        "Public Policy",
+        "Computer Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "加州大学伯克利分校",
+      "en": "UC Berkeley"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "加利福尼亚州",
+      "en": "California"
+    },
+    "acceptanceRate": 11,
+    "satRange": [
+      1390,
+      1530
+    ],
+    "deadline": "12/1",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "工程学",
+        "经济学"
+      ],
+      "en": [
+        "Computer Science",
+        "Engineering",
+        "Economics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "加州大学洛杉矶分校",
+      "en": "UCLA"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "加利福尼亚州",
+      "en": "California"
+    },
+    "acceptanceRate": 9,
+    "satRange": [
+      1400,
+      1540
+    ],
+    "deadline": "12/1",
+    "popularMajors": {
+      "zh": [
+        "生物学",
+        "经济学",
+        "工程学"
+      ],
+      "en": [
+        "Biology",
+        "Economics",
+        "Engineering"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "宾夕法尼亚大学",
+      "en": "University of Pennsylvania"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "宾夕法尼亚州",
+      "en": "Pennsylvania"
+    },
+    "acceptanceRate": 6,
+    "satRange": [
+      1500,
+      1560
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "商学(沃顿)",
+        "护理学",
+        "计算机科学"
+      ],
+      "en": [
+        "Business (Wharton)",
+        "Nursing",
+        "Computer Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "康奈尔大学",
+      "en": "Cornell University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "纽约州",
+      "en": "New York"
+    },
+    "acceptanceRate": 8,
+    "satRange": [
+      1470,
+      1560
+    ],
+    "deadline": "1/2",
+    "popularMajors": {
+      "zh": [
+        "工程学",
+        "酒店管理",
+        "农业科学"
+      ],
+      "en": [
+        "Engineering",
+        "Hotel Administration",
+        "Agricultural Sciences"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "卡内基梅隆大学",
+      "en": "Carnegie Mellon University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "宾夕法尼亚州",
+      "en": "Pennsylvania"
+    },
+    "acceptanceRate": 8,
+    "satRange": [
+      1490,
+      1560
+    ],
+    "deadline": "1/5",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "工程学",
+        "设计"
+      ],
+      "en": [
+        "Computer Science",
+        "Engineering",
+        "Design"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "西北大学",
+      "en": "Northwestern University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "伊利诺伊州",
+      "en": "Illinois"
+    },
+    "acceptanceRate": 7,
+    "satRange": [
+      1490,
+      1560
+    ],
+    "deadline": "1/2",
+    "popularMajors": {
+      "zh": [
+        "新闻学",
+        "经济学",
+        "计算机科学"
+      ],
+      "en": [
+        "Journalism",
+        "Economics",
+        "Computer Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "约翰霍普金斯大学",
+      "en": "Johns Hopkins University"
+    },
+    "country": {
+      "zh": "美国",
+      "en": "USA"
+    },
+    "region": {
+      "zh": "马里兰州",
+      "en": "Maryland"
+    },
+    "acceptanceRate": 8,
+    "satRange": [
+      1490,
+      1560
+    ],
+    "deadline": "1/2",
+    "popularMajors": {
+      "zh": [
+        "生物医学工程",
+        "公共卫生",
+        "神经科学"
+      ],
+      "en": [
+        "Biomedical Engineering",
+        "Public Health",
+        "Neuroscience"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "牛津大学",
+      "en": "University of Oxford"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "牛津郡",
+      "en": "Oxfordshire"
+    },
+    "acceptanceRate": 14,
+    "satRange": [
+      1470,
+      1580
+    ],
+    "deadline": "10/15",
+    "popularMajors": {
+      "zh": [
+        "哲学政治与经济(PPE)",
+        "数学",
+        "医学"
+      ],
+      "en": [
+        "Philosophy, Politics & Economics",
+        "Mathematics",
+        "Medicine"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "剑桥大学",
+      "en": "University of Cambridge"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "剑桥郡",
+      "en": "Cambridgeshire"
+    },
+    "acceptanceRate": 16,
+    "satRange": [
+      1460,
+      1580
+    ],
+    "deadline": "10/15",
+    "popularMajors": {
+      "zh": [
+        "自然科学",
+        "工程学",
+        "经济学"
+      ],
+      "en": [
+        "Natural Sciences",
+        "Engineering",
+        "Economics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "帝国理工学院",
+      "en": "Imperial College London"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "伦敦",
+      "en": "London"
+    },
+    "acceptanceRate": 11,
+    "satRange": [
+      1400,
+      1550
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "机械工程",
+        "医学"
+      ],
+      "en": [
+        "Computer Science",
+        "Mechanical Engineering",
+        "Medicine"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "伦敦大学学院",
+      "en": "University College London"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "伦敦",
+      "en": "London"
+    },
+    "acceptanceRate": 10,
+    "satRange": [
+      1360,
+      1530
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "建筑学",
+        "经济学",
+        "心理学"
+      ],
+      "en": [
+        "Architecture",
+        "Economics",
+        "Psychology"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "爱丁堡大学",
+      "en": "University of Edinburgh"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "苏格兰 · 爱丁堡",
+      "en": "Edinburgh, Scotland"
+    },
+    "acceptanceRate": 10,
+    "satRange": [
+      1290,
+      1500
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "人工智能",
+        "文学",
+        "兽医学"
+      ],
+      "en": [
+        "Artificial Intelligence",
+        "Literature",
+        "Veterinary Medicine"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "曼彻斯特大学",
+      "en": "University of Manchester"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "曼彻斯特",
+      "en": "Manchester"
+    },
+    "acceptanceRate": 12,
+    "satRange": [
+      1290,
+      1480
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "商科",
+        "材料科学",
+        "生命科学"
+      ],
+      "en": [
+        "Business",
+        "Materials Science",
+        "Life Sciences"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "伦敦国王学院",
+      "en": "King's College London"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "伦敦",
+      "en": "London"
+    },
+    "acceptanceRate": 13,
+    "satRange": [
+      1320,
+      1500
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "法学",
+        "国际关系",
+        "护理学"
+      ],
+      "en": [
+        "Law",
+        "International Relations",
+        "Nursing"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "伦敦政治经济学院",
+      "en": "London School of Economics"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "伦敦",
+      "en": "London"
+    },
+    "acceptanceRate": 7,
+    "satRange": [
+      1400,
+      1550
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "经济学",
+        "会计学",
+        "社会学"
+      ],
+      "en": [
+        "Economics",
+        "Accounting",
+        "Sociology"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "布里斯托大学",
+      "en": "University of Bristol"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "布里斯托",
+      "en": "Bristol"
+    },
+    "acceptanceRate": 12,
+    "satRange": [
+      1350,
+      1500
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "航空工程",
+        "影视制作",
+        "物理学"
+      ],
+      "en": [
+        "Aerospace Engineering",
+        "Film & Television",
+        "Physics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "华威大学",
+      "en": "University of Warwick"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "考文垂",
+      "en": "Coventry"
+    },
+    "acceptanceRate": 14,
+    "satRange": [
+      1350,
+      1500
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "数学",
+        "商学",
+        "统计学"
+      ],
+      "en": [
+        "Mathematics",
+        "Business",
+        "Statistics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "格拉斯哥大学",
+      "en": "University of Glasgow"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "苏格兰 · 格拉斯哥",
+      "en": "Glasgow, Scotland"
+    },
+    "acceptanceRate": 15,
+    "satRange": [
+      1280,
+      1480
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "解剖学",
+        "兽医",
+        "土木工程"
+      ],
+      "en": [
+        "Anatomy",
+        "Veterinary Medicine",
+        "Civil Engineering"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "南安普顿大学",
+      "en": "University of Southampton"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "南安普顿",
+      "en": "Southampton"
+    },
+    "acceptanceRate": 15,
+    "satRange": [
+      1280,
+      1460
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "电子工程",
+        "海洋科学",
+        "计算机科学"
+      ],
+      "en": [
+        "Electronic Engineering",
+        "Ocean Science",
+        "Computer Science"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "杜伦大学",
+      "en": "Durham University"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "杜伦",
+      "en": "Durham"
+    },
+    "acceptanceRate": 16,
+    "satRange": [
+      1300,
+      1500
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "神学",
+        "古典学",
+        "地理学"
+      ],
+      "en": [
+        "Theology",
+        "Classics",
+        "Geography"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "伯明翰大学",
+      "en": "University of Birmingham"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "伯明翰",
+      "en": "Birmingham"
+    },
+    "acceptanceRate": 14,
+    "satRange": [
+      1280,
+      1460
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "体育科学",
+        "化学工程",
+        "音乐"
+      ],
+      "en": [
+        "Sport Science",
+        "Chemical Engineering",
+        "Music"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "利兹大学",
+      "en": "University of Leeds"
+    },
+    "country": {
+      "zh": "英国",
+      "en": "UK"
+    },
+    "region": {
+      "zh": "利兹",
+      "en": "Leeds"
+    },
+    "acceptanceRate": 15,
+    "satRange": [
+      1300,
+      1480
+    ],
+    "deadline": "1/31",
+    "popularMajors": {
+      "zh": [
+        "传媒学",
+        "环境科学",
+        "翻译学"
+      ],
+      "en": [
+        "Media & Communication",
+        "Environmental Science",
+        "Translation"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港大学",
+      "en": "The University of Hong Kong"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "香港岛 · 薄扶林",
+      "en": "Pokfulam, Hong Kong Island"
+    },
+    "acceptanceRate": 10,
+    "satRange": [
+      1380,
+      1560
+    ],
+    "deadline": "11/26",
+    "popularMajors": {
+      "zh": [
+        "医学",
+        "法学",
+        "商科(金融与经济)"
+      ],
+      "en": [
+        "Medicine",
+        "Law",
+        "Business (Finance & Economics)"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港中文大学",
+      "en": "The Chinese University of Hong Kong"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "新界 · 沙田",
+      "en": "Sha Tin, New Territories"
+    },
+    "acceptanceRate": 15,
+    "satRange": [
+      1190,
+      1480
+    ],
+    "deadline": "1/8",
+    "popularMajors": {
+      "zh": [
+        "医学",
+        "商科(环球商业)",
+        "传播学"
+      ],
+      "en": [
+        "Medicine",
+        "Business (Global Business Studies)",
+        "Communication"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港科技大学",
+      "en": "The Hong Kong University of Science and Technology"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "新界 · 清水湾",
+      "en": "Clear Water Bay, New Territories"
+    },
+    "acceptanceRate": 15,
+    "satRange": [
+      1290,
+      1540
+    ],
+    "deadline": "1/8",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "工程学",
+        "商科(环球商业管理)"
+      ],
+      "en": [
+        "Computer Science",
+        "Engineering",
+        "Business (Global Business Management)"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港理工大学",
+      "en": "The Hong Kong Polytechnic University"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "九龙 · 红磡",
+      "en": "Hung Hom, Kowloon"
+    },
+    "acceptanceRate": 25,
+    "satRange": [
+      1190,
+      1520
+    ],
+    "deadline": "2/5",
+    "popularMajors": {
+      "zh": [
+        "酒店与旅游业管理",
+        "设计学",
+        "工程学"
+      ],
+      "en": [
+        "Hotel & Tourism Management",
+        "Design",
+        "Engineering"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港城市大学",
+      "en": "City University of Hong Kong"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "九龙 · 九龙塘",
+      "en": "Kowloon Tong, Kowloon"
+    },
+    "acceptanceRate": 20,
+    "satRange": [
+      1190,
+      1480
+    ],
+    "deadline": "1/15",
+    "popularMajors": {
+      "zh": [
+        "计算机科学",
+        "商学",
+        "创意媒体"
+      ],
+      "en": [
+        "Computer Science",
+        "Business",
+        "Creative Media"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港浸会大学",
+      "en": "Hong Kong Baptist University"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "九龙 · 九龙塘",
+      "en": "Kowloon Tong, Kowloon"
+    },
+    "acceptanceRate": 30,
+    "satRange": [
+      1190,
+      1450
+    ],
+    "deadline": "2/1",
+    "popularMajors": {
+      "zh": [
+        "传理学(新闻)",
+        "中医药",
+        "商科"
+      ],
+      "en": [
+        "Communication (Journalism)",
+        "Chinese Medicine",
+        "Business"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "香港教育大学",
+      "en": "The Education University of Hong Kong"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "新界 · 大埔",
+      "en": "Tai Po, New Territories"
+    },
+    "acceptanceRate": 35,
+    "satRange": [
+      1190,
+      1400
+    ],
+    "deadline": "5/31",
+    "popularMajors": {
+      "zh": [
+        "教育学",
+        "心理学",
+        "语言学"
+      ],
+      "en": [
+        "Education",
+        "Psychology",
+        "Linguistics"
+      ]
+    }
+  },
+  {
+    "name": {
+      "zh": "岭南大学",
+      "en": "Lingnan University"
+    },
+    "country": {
+      "zh": "中国香港",
+      "en": "Hong Kong, China"
+    },
+    "region": {
+      "zh": "新界 · 屯门",
+      "en": "Tuen Mun, New Territories"
+    },
+    "acceptanceRate": 35,
+    "satRange": [
+      1190,
+      1400
+    ],
+    "deadline": "6/30",
+    "popularMajors": {
+      "zh": [
+        "博雅教育(社会学)",
+        "商学",
+        "哲学"
+      ],
+      "en": [
+        "Liberal Arts (Sociology)",
+        "Business",
+        "Philosophy"
+      ]
+    }
+  }
+];
